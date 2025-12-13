@@ -49,6 +49,9 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
+#root {
+  width: 100%;
+}
 
 /* light, minimal scrollbar for the grid area */
 .scrollable-grid::-webkit-scrollbar {
