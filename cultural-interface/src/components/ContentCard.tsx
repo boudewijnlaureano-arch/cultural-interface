@@ -9,6 +9,8 @@ export type ContentCardProps = {
   contentImage: { label: string; src: string };
   onHoverStart: (target: HTMLDivElement) => void;
   onHoverEnd: () => void;
+  onPfpHoverStart: (target: HTMLDivElement) => void;
+  onPfpHoverEnd: () => void;
 };
 
 export function ContentCard({
@@ -19,6 +21,8 @@ export function ContentCard({
   hasHoverInfo,
   onHoverStart,
   onHoverEnd,
+  onPfpHoverStart,
+  onPfpHoverEnd,
 }: ContentCardProps) {
   return (
     <div
@@ -38,13 +42,19 @@ export function ContentCard({
         flex flex-col
       `}
     >
-      <img
-        src={contentImage.src}
-        alt="Content"
-        className="h-2/3 w-full object-cover"
-      />
+      <div className="h-2/3 w-full">
+        <img
+          src={contentImage.src}
+          alt={contentImage.label}
+          className="h-full w-full object-cover"
+        />
+      </div>
       <div className="flex-1 p-3 flex flex-col justify-between">
-        <div className="flex items-center gap-2">
+        <div
+          className="flex items-center gap-2"
+          onMouseEnter={(e) => onPfpHoverStart(e.currentTarget)}
+          onMouseLeave={onPfpHoverEnd}
+        >
           <img
             src={pfp.src}
             alt="Profile"

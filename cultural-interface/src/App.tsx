@@ -2,30 +2,32 @@ import * as React from "react";
 import { Android } from "./components/ui/shadcn-io/android/android";
 import { ScrollInfoBlock, type ScrollInfo } from "./components/ScrollInfoBlock";
 import { HoverInfoBlock, type HoverInfo } from "./components/HoverInfoBlock";
-import { ContentCard } from "./components/ContentCard.tsx";
+import { ContentCard } from "./components/ContentCard";
+import { NavBar } from "./components/NavBar";
+import { CONCEPT_HOVER_INFO, HOVER_INFO_DATA } from "./hoverInfo";
 
 type Side = "left" | "right";
 
 const RIGHT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
-  id: i + 6,
-  title: `Block ${i + 6}`,
+  id: i + 8,
+  title: `Block ${i + 8}`,
   pfp: { label: "@Yuan ShiMing", src: "/assets/PFPs/kipepeopfp.jpg" },
-  contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
+  contentImage: { label: "toronto", src: "/assets/content/toronto.jpg" },
 }));
 
 const LEFT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1, // 6..10
   title: `Block ${i + 1}`,
   pfp: { label: "@John Smith", src: "/assets/PFPs/kipepeopfp.jpg" },
-  contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
+  contentImage: { label: "toronto", src: "/assets/content/toronto.jpg" },
 }));
-
-const HOVER_INFO_DATA: Record<number, HoverInfo> = {};
 
 export default function App() {
   const [scrollInfoMap] = React.useState<Record<number, ScrollInfo>>({});
   const [hoverInfoMap] =
-    React.useState<Record<number, HoverInfo>>(HOVER_INFO_DATA);
+    React.useState<Record<string | number, HoverInfo | HoverInfo[]>>(
+      HOVER_INFO_DATA
+    );
   const [hoveredBlock, setHoveredBlock] = React.useState<{
     id: number;
     side: Side;
@@ -68,21 +70,65 @@ export default function App() {
     }
   };
 
-  const hoverInfo =
-    hoveredBlock && hoverInfoMap[hoveredBlock.id]
-      ? { ...hoverInfoMap[hoveredBlock.id], side: hoveredBlock.side }
-      : undefined;
+  const handleHoverStart = (
+    target: HTMLElement,
+    blockId: number,
+    side: Side
+  ) => {
+    const rect = target.getBoundingClientRect();
+    const wrapperRect = wrapperRef.current?.getBoundingClientRect() ?? {
+      top: 0,
+    };
+    const triggerCenterY = rect.top - wrapperRect.top + rect.height / 2;
+    setHoveredBlock({ id: blockId, side, triggerCenterY });
+  };
 
-  const leftInfo = hoverInfo?.side === "left" ? hoverInfo : undefined;
-  const rightInfo = hoverInfo?.side === "right" ? hoverInfo : undefined;
+  // Determine which info panels to show based on the hovered block
+  let leftInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
+  let rightInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
+
+  const getHoverInfo = (id: string | number) => {
+    // Check block-specific data first, then conceptual data
+    return hoverInfoMap[id] ?? CONCEPT_HOVER_INFO[id];
+  };
+
+  if (hoveredBlock) {
+    const infoData = getHoverInfo(hoveredBlock.id);
+    if (Array.isArray(infoData)) {
+      // Special case: show both panels
+      leftInfo = {
+        ...infoData[0],
+        triggerCenterY: hoveredBlock.triggerCenterY,
+      };
+      rightInfo = {
+        ...infoData[1],
+        triggerCenterY: hoveredBlock.triggerCenterY,
+      };
+    } else if (infoData) {
+      // Default case: show one panel on the corresponding side
+      const infoWithTrigger = {
+        ...infoData,
+        triggerCenterY: hoveredBlock.triggerCenterY,
+      };
+      if (hoveredBlock.side === "left") {
+        leftInfo = infoWithTrigger;
+      } else {
+        rightInfo = infoWithTrigger;
+      }
+    }
+  }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center">
+    <div className="min-h-screen w-full flex items-center justify-center bg-neutral-700">
       {/* Wrapper MUST be relative so panels can position next to phones */}
       <div ref={wrapperRef} className="relative flex">
         {/* Left phone (shows blocks 6..10) */}
         <Phone>
-          <div className="h-full flex flex-col p-4 gap-3 text-neutral-900 bg-blue-100">
+          <div
+            className="h-full flex flex-col p-4 gap-3 text-neutral-900 bg-blue-100"
+            onMouseEnter={(e) => handleHoverStart(e.currentTarget, 9, "left")}
+            onMouseLeave={() => setHoveredBlock(null)}
+          >
             <div
               ref={leftScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
@@ -91,40 +137,55 @@ export default function App() {
               onWheel={() => (activeScrollerRef.current = "left")}
             >
               <div className="grid grid-cols-1 gap-3 pb-4">
-                {LEFT_BLOCKS.map((b) => (
-                  <ContentCard
-                    key={b.id}
-                    title={b.title}
-                    variant="square"
-                    blockId={b.id}
-                    pfp={b.pfp}
-                    contentImage={b.contentImage}
-                    hasHoverInfo={Boolean(hoverInfoMap[b.id])}
-                    onHoverStart={(target) => {
-                      const rect = target.getBoundingClientRect();
-                      const wrapperRect =
-                        wrapperRef.current?.getBoundingClientRect() ?? {
-                          top: 0,
-                        };
-                      const triggerCenterY =
-                        rect.top - wrapperRect.top + rect.height / 2;
-                      setHoveredBlock({
-                        id: b.id,
-                        side: "left",
-                        triggerCenterY,
-                      });
-                    }}
-                    onHoverEnd={() => setHoveredBlock(null)}
-                  />
-                ))}
+                {LEFT_BLOCKS.map((b) => {
+                  const hasCardHover = Boolean(getHoverInfo(b.id));
+                  return (
+                    <ContentCard
+                      key={b.id}
+                      title={b.title}
+                      variant="square"
+                      blockId={b.id}
+                      pfp={b.pfp}
+                      contentImage={b.contentImage}
+                      hasHoverInfo={hasCardHover}
+                      onHoverStart={(target) =>
+                        handleHoverStart(
+                          target,
+                          hasCardHover ? b.id : 3,
+                          "left"
+                        )
+                      }
+                      onHoverEnd={() => setHoveredBlock(null)}
+                      onPfpHoverStart={(target) =>
+                        handleHoverStart(target, 4, "left")
+                      }
+                      onPfpHoverEnd={() => setHoveredBlock(null)}
+                    />
+                  );
+                })}
               </div>
             </div>
+            <NavBar
+              variant="left"
+              onHoverStart={(target) => handleHoverStart(target, 2, "left")}
+              onHoverEnd={() => setHoveredBlock(null)}
+              onButtonHoverStart={(target, iconName) => {
+                if (iconName === "play") {
+                  handleHoverStart(target, 6, "left");
+                }
+              }}
+              onButtonHoverEnd={() => setHoveredBlock(null)}
+            />
           </div>
         </Phone>
 
         {/* Right phone (shows blocks 1..5) */}
         <Phone>
-          <div className="h-full flex flex-col p-2 gap-3 text-neutral-900 bg-red-100">
+          <div
+            className="h-full flex flex-col p-2 gap-3 text-neutral-900 bg-red-100"
+            onMouseEnter={(e) => handleHoverStart(e.currentTarget, 9, "right")}
+            onMouseLeave={() => setHoveredBlock(null)}
+          >
             <div
               ref={rightScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
@@ -133,34 +194,45 @@ export default function App() {
               onWheel={() => (activeScrollerRef.current = "right")}
             >
               <div className="grid grid-cols-2 gap-1.5 pb-4">
-                {RIGHT_BLOCKS.map((b) => (
-                  <ContentCard
-                    key={b.id}
-                    title={b.title}
-                    variant="tall"
-                    blockId={b.id}
-                    pfp={b.pfp}
-                    contentImage={b.contentImage}
-                    hasHoverInfo={Boolean(hoverInfoMap[b.id])}
-                    onHoverStart={(target) => {
-                      const rect = target.getBoundingClientRect();
-                      const wrapperRect =
-                        wrapperRef.current?.getBoundingClientRect() ?? {
-                          top: 0,
-                        };
-                      const triggerCenterY =
-                        rect.top - wrapperRect.top + rect.height / 2;
-                      setHoveredBlock({
-                        id: b.id,
-                        side: "right",
-                        triggerCenterY,
-                      });
-                    }}
-                    onHoverEnd={() => setHoveredBlock(null)}
-                  />
-                ))}
+                {RIGHT_BLOCKS.map((b) => {
+                  const hasCardHover = Boolean(getHoverInfo(b.id));
+                  return (
+                    <ContentCard
+                      key={b.id}
+                      title={b.title}
+                      variant="tall"
+                      blockId={b.id}
+                      pfp={b.pfp}
+                      contentImage={b.contentImage}
+                      hasHoverInfo={hasCardHover}
+                      onHoverStart={(target) =>
+                        handleHoverStart(
+                          target,
+                          hasCardHover ? b.id : 3,
+                          "right"
+                        )
+                      }
+                      onHoverEnd={() => setHoveredBlock(null)}
+                      onPfpHoverStart={(target) =>
+                        handleHoverStart(target, 4, "right")
+                      }
+                      onPfpHoverEnd={() => setHoveredBlock(null)}
+                    />
+                  );
+                })}
               </div>
             </div>
+            <NavBar
+              variant="right"
+              onHoverStart={(target) => handleHoverStart(target, 2, "right")}
+              onHoverEnd={() => setHoveredBlock(null)}
+              onButtonHoverStart={(target, iconName) => {
+                if (iconName === "create") {
+                  handleHoverStart(target, 6, "right");
+                }
+              }}
+              onButtonHoverEnd={() => setHoveredBlock(null)}
+            />
           </div>
         </Phone>
 
@@ -170,9 +242,7 @@ export default function App() {
           side="left"
           title={leftInfo?.title ?? ""}
           text={leftInfo?.text ?? ""}
-          triggerCenterY={
-            hoverInfo?.side === "left" ? hoverInfo.triggerCenterY : undefined
-          }
+          triggerCenterY={leftInfo?.triggerCenterY}
         />
 
         {/* RIGHT panel: always on the outside of the right phone */}
@@ -181,9 +251,7 @@ export default function App() {
           side="right"
           title={rightInfo?.title ?? ""}
           text={rightInfo?.text ?? ""}
-          triggerCenterY={
-            hoverInfo?.side === "right" ? hoverInfo.triggerCenterY : undefined
-          }
+          triggerCenterY={rightInfo?.triggerCenterY}
         />
       </div>
     </div>
@@ -255,7 +323,7 @@ function useInfoBlocksInView({
 
 function Phone({ children }: React.PropsWithChildren<{}>) {
   return (
-    <div className="h-[700px] w-[360px] overflow-hidden">
+    <div className="h-[700px] w-[360px]">
       <Android className="block h-full w-full">{children}</Android>
     </div>
   );
