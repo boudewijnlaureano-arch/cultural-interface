@@ -13,28 +13,19 @@ const RIGHT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
   contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
 }));
 
-const LEFT_BLOCKS = Array.from({ length: 6 }, (_, i) => ({
+const LEFT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
   id: i + 1, // 6..10
   title: `Block ${i + 1}`,
   pfp: { label: "@John Smith", src: "/assets/PFPs/kipepeopfp.jpg" },
   contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
 }));
 
+const HOVER_INFO_DATA: Record<number, HoverInfo> = {};
+
 export default function App() {
-  // independent “currently visible info block” per phone
-  const [visible, setVisible] = React.useState<{
-    left: number | null;
-    right: number | null;
-  }>({
-    left: null,
-    right: null,
-  });
-  const [scrollInfoMap, setScrollInfoMap] = React.useState<
-    Record<number, ScrollInfo>
-  >({});
-  const [hoverInfoMap, setHoverInfoMap] = React.useState<
-    Record<number, HoverInfo>
-  >({});
+  const [scrollInfoMap] = React.useState<Record<number, ScrollInfo>>({});
+  const [hoverInfoMap] =
+    React.useState<Record<number, HoverInfo>>(HOVER_INFO_DATA);
   const [hoveredBlock, setHoveredBlock] = React.useState<{
     id: number;
     side: Side;
@@ -45,99 +36,59 @@ export default function App() {
   const leftScrollRef = React.useRef<HTMLDivElement | null>(null);
   const rightScrollRef = React.useRef<HTMLDivElement | null>(null);
 
-  useInfoBlocksInView({
-    scrollInfoMap,
-    scrollRootRef: leftScrollRef,
-    onChange: (blockIdOrNull) =>
-      setVisible((v) => ({ ...v, left: blockIdOrNull })),
-  });
+  // Ref to track which scroll container is being actively scrolled by the user
+  // to prevent an infinite loop of scroll events.
+  const activeScrollerRef = React.useRef<Side | null>(null);
 
-  useInfoBlocksInView({
-    scrollInfoMap,
-    scrollRootRef: rightScrollRef,
-    onChange: (blockIdOrNull) =>
-      setVisible((v) => ({ ...v, right: blockIdOrNull })),
-  });
+  const handleLeftScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (activeScrollerRef.current !== "left") return;
+    const leftEl = e.currentTarget;
+    const leftMaxScroll = leftEl.scrollHeight - leftEl.clientHeight;
+    if (leftMaxScroll <= 0) return;
 
-  const leftScrollInfo = visible.left ? scrollInfoMap[visible.left] : undefined;
-  const rightScrollInfo = visible.right
-    ? scrollInfoMap[visible.right]
-    : undefined;
+    const rightEl = rightScrollRef.current;
+    if (rightEl) {
+      const rightMaxScroll = rightEl.scrollHeight - rightEl.clientHeight;
+      const scrollPercent = leftEl.scrollTop / leftMaxScroll;
+      rightEl.scrollTop = scrollPercent * rightMaxScroll;
+    }
+  };
+
+  const handleRightScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (activeScrollerRef.current !== "right") return;
+    const rightEl = e.currentTarget;
+    const rightMaxScroll = rightEl.scrollHeight - rightEl.clientHeight;
+    if (rightMaxScroll <= 0) return;
+
+    const leftEl = leftScrollRef.current;
+    if (leftEl) {
+      const leftMaxScroll = leftEl.scrollHeight - leftEl.clientHeight;
+      const scrollPercent = rightEl.scrollTop / rightMaxScroll;
+      leftEl.scrollTop = scrollPercent * leftMaxScroll;
+    }
+  };
 
   const hoverInfo =
     hoveredBlock && hoverInfoMap[hoveredBlock.id]
       ? { ...hoverInfoMap[hoveredBlock.id], side: hoveredBlock.side }
       : undefined;
 
-  const leftInfo = hoverInfo?.side === "left" ? hoverInfo : leftScrollInfo;
-  const rightInfo = hoverInfo?.side === "right" ? hoverInfo : rightScrollInfo;
+  const leftInfo = hoverInfo?.side === "left" ? hoverInfo : undefined;
+  const rightInfo = hoverInfo?.side === "right" ? hoverInfo : undefined;
 
   return (
     <div className="min-h-screen w-full flex items-center justify-center">
       {/* Wrapper MUST be relative so panels can position next to phones */}
       <div ref={wrapperRef} className="relative flex">
-        {/* Hover info blocks. They don't render anything. */}
-        <React.Fragment>
-          {[
-            <ScrollInfoBlock
-              key={5}
-              id={5}
-              title="Block 5"
-              text="Information about a Western design choice of this component"
-            />,
-            <ScrollInfoBlock
-              key={8}
-              id={8}
-              title="Block 8"
-              text="Information about a Chinese design choice of this component"
-            />,
-          ].filter(
-            (
-              c
-            ): c is React.ReactElement<ScrollInfo, typeof ScrollInfoBlock> => {
-              // This effect runs once on mount to populate the hover info map.
-              // It's a bit of a workaround to extract props from components.
-              React.useEffect(() => {
-                setScrollInfoMap((prev) => ({
-                  ...prev,
-                  [c.props.id]: c.props,
-                }));
-              }, []); // eslint-disable-line react-hooks/exhaustive-deps
-              return false; // Ensure nothing is rendered
-            }
-          )}
-          {[
-            <HoverInfoBlock
-              key={1}
-              id={1}
-              title="Block 1 (Hover)"
-              text="This information appears when you hover over Block 1."
-            />,
-            <HoverInfoBlock
-              key={7}
-              id={7}
-              title="Block 7 (Hover)"
-              text="This is some information about Block 7."
-            />,
-          ].filter(
-            (c): c is React.ReactElement<HoverInfo, typeof HoverInfoBlock> => {
-              React.useEffect(() => {
-                setHoverInfoMap((prev) => ({
-                  ...prev,
-                  [c.props.id]: c.props,
-                }));
-              }, []); // eslint-disable-line react-hooks/exhaustive-deps
-              return false;
-            }
-          )}
-        </React.Fragment>
-
         {/* Left phone (shows blocks 6..10) */}
         <Phone>
           <div className="h-full flex flex-col p-4 gap-3 text-neutral-900 bg-blue-100">
             <div
               ref={leftScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
+              onScroll={handleLeftScroll}
+              onMouseEnter={() => (activeScrollerRef.current = "left")}
+              onWheel={() => (activeScrollerRef.current = "left")}
             >
               <div className="grid grid-cols-1 gap-3 pb-4">
                 {LEFT_BLOCKS.map((b) => (
@@ -177,6 +128,9 @@ export default function App() {
             <div
               ref={rightScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
+              onScroll={handleRightScroll}
+              onMouseEnter={() => (activeScrollerRef.current = "right")}
+              onWheel={() => (activeScrollerRef.current = "right")}
             >
               <div className="grid grid-cols-2 gap-1.5 pb-4">
                 {RIGHT_BLOCKS.map((b) => (
