@@ -1,24 +1,23 @@
 import * as React from "react";
 import { Android } from "./components/ui/shadcn-io/android/android";
-import {
-  ScrollInfoBlock,
-  type ScrollInfo,
-} from "./components/ScrollInfoBlock.tsx";
-import {
-  HoverInfoBlock,
-  type HoverInfo,
-} from "./components/HoverInfoBlock.tsx";
+import { ScrollInfoBlock, type ScrollInfo } from "./components/ScrollInfoBlock";
+import { HoverInfoBlock, type HoverInfo } from "./components/HoverInfoBlock";
+import { ContentCard } from "./components/ContentCard.tsx";
 
 type Side = "left" | "right";
 
-const RIGHT_BLOCKS = Array.from({ length: 10 }, (_, i) => ({
+const RIGHT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
   id: i + 6,
   title: `Block ${i + 6}`,
+  pfp: { label: "@Yuan ShiMing", src: "/assets/PFPs/kipepeopfp.jpg" },
+  contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
 }));
 
-const LEFT_BLOCKS = Array.from({ length: 15 }, (_, i) => ({
+const LEFT_BLOCKS = Array.from({ length: 6 }, (_, i) => ({
   id: i + 1, // 6..10
   title: `Block ${i + 1}`,
+  pfp: { label: "@John Smith", src: "/assets/PFPs/kipepeopfp.jpg" },
+  contentImage: { label: "kipepeo", src: "/assets/content/kipepeo.jpg" },
 }));
 
 export default function App() {
@@ -135,17 +134,20 @@ export default function App() {
 
         {/* Left phone (shows blocks 6..10) */}
         <Phone>
-          <div className="h-full flex flex-col p-4 gap-3 text-neutral-900">
+          <div className="h-full flex flex-col p-4 gap-3 text-neutral-900 bg-blue-100">
             <div
               ref={leftScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
             >
               <div className="grid grid-cols-1 gap-3 pb-4">
                 {LEFT_BLOCKS.map((b) => (
-                  <InfoCard
+                  <ContentCard
                     key={b.id}
                     title={b.title}
+                    variant="square"
                     blockId={b.id}
+                    pfp={b.pfp}
+                    contentImage={b.contentImage}
                     hasHoverInfo={Boolean(hoverInfoMap[b.id])}
                     onHoverStart={(target) => {
                       const rect = target.getBoundingClientRect();
@@ -171,17 +173,20 @@ export default function App() {
 
         {/* Right phone (shows blocks 1..5) */}
         <Phone>
-          <div className="h-full flex flex-col p-4 gap-3 text-neutral-900">
+          <div className="h-full flex flex-col p-2 gap-3 text-neutral-900 bg-red-100">
             <div
               ref={rightScrollRef}
               className="flex-1 overflow-y-auto pr-1 scrollable-grid"
             >
-              <div className="grid grid-cols-1 gap-3 pb-4">
+              <div className="grid grid-cols-2 gap-1.5 pb-4">
                 {RIGHT_BLOCKS.map((b) => (
-                  <InfoCard
+                  <ContentCard
                     key={b.id}
                     title={b.title}
+                    variant="tall"
                     blockId={b.id}
+                    pfp={b.pfp}
+                    contentImage={b.contentImage}
                     hasHoverInfo={Boolean(hoverInfoMap[b.id])}
                     onHoverStart={(target) => {
                       const rect = target.getBoundingClientRect();
@@ -298,44 +303,6 @@ function Phone({ children }: React.PropsWithChildren<{}>) {
   return (
     <div className="h-[700px] w-[360px] overflow-hidden">
       <Android className="block h-full w-full">{children}</Android>
-    </div>
-  );
-}
-
-/* ---------------- InfoCard ---------------- */
-
-function InfoCard({
-  title,
-  blockId,
-  hasHoverInfo,
-  onHoverStart,
-  onHoverEnd,
-}: {
-  title: string;
-  blockId: number;
-  hasHoverInfo: boolean;
-  onHoverStart: (target: HTMLDivElement) => void;
-  onHoverEnd: () => void;
-}) {
-  return (
-    <div
-      data-block-id={blockId}
-      onMouseEnter={
-        hasHoverInfo ? (e) => onHoverStart(e.currentTarget) : undefined
-      }
-      onMouseLeave={hasHoverInfo ? onHoverEnd : undefined}
-      className={`
-        relative group aspect-square
-        rounded-3xl
-        bg-white/80
-        border border-neutral-200
-        shadow-sm
-        flex items-center justify-center
-        text-sm font-medium text-neutral-900
-        backdrop-blur-sm
-      `}
-    >
-      {title}
     </div>
   );
 }
