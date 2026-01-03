@@ -1,5 +1,3 @@
-import * as React from "react";
-
 const LEFT_ICONS = [
   { name: "home", src: "/assets/icons/icon-home.svg", alt: "Home" },
   { name: "play", src: "/assets/icons/icon-play.svg", alt: "Play" },
@@ -17,45 +15,61 @@ const RIGHT_ICONS = [
 
 type NavBarProps = {
   variant: "left" | "right";
-  onHoverStart: (target: HTMLElement) => void;
-  onHoverEnd: () => void;
-  onButtonHoverStart: (target: HTMLElement, iconName: string) => void;
-  onButtonHoverEnd: () => void;
+  onButtonClick: (target: HTMLElement, iconName: string) => void;
+  activeButton?: string; // Optional: which button is currently active (defaults to "home")
 };
 
 export function NavBar({
   variant,
-  onHoverStart,
-  onHoverEnd,
-  onButtonHoverStart,
-  onButtonHoverEnd,
+  onButtonClick,
 }: NavBarProps) {
   const icons = variant === "left" ? LEFT_ICONS : RIGHT_ICONS;
 
+  // Check which icons have info (play for left, create for right)
+  const hasInfo = (iconName: string) => {
+    if (variant === "left") return iconName === "play";
+    if (variant === "right") return iconName === "create";
+    return false;
+  };
+
   return (
-    <div
-      className="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2"
-      onMouseEnter={(e) => onHoverStart(e.currentTarget)}
-      onMouseLeave={onHoverEnd}
-    >
-      {icons.map((icon) => (
-        <button
-          key={icon.src}
-          className="p-2 flex-1 flex justify-center items-center rounded-lg bg-white hover:opacity-75 transition-opacity"
-          onMouseEnter={(e) => onButtonHoverStart(e.currentTarget, icon.name)}
-          onMouseLeave={onButtonHoverEnd}
-        >
-          <img
-            src={icon.src}
-            alt={icon.alt}
-            className={`h-8 w-8 ${
-              variant === "right"
-                ? "filter brightness-0 saturate-100 invert-[19%] sepia-[82%] hue-rotate-[344deg] contrast-[98%]"
-                : ""
-            }`}
-          />
-        </button>
-      ))}
+    <div className="p-3">
+      <div className="flex justify-around items-center bg-white/90 backdrop-blur-md rounded-3xl h-14 px-2 gap-1 shadow-lg">
+        {icons.map((icon) => {
+          const showInfo = hasInfo(icon.name);
+          const buttonColorClasses = variant === "left"
+            ? "hover:bg-slate-50"
+            : "hover:bg-rose-50";
+
+          return (
+            <button
+              key={icon.src}
+              className={`p-2 flex-1 flex justify-center items-center rounded-2xl transition-all duration-200 focus:outline-none relative group ${buttonColorClasses} ${
+                showInfo ? "cursor-pointer" : ""
+              }`}
+              onClick={(e) => {
+                if (showInfo) {
+                  onButtonClick(e.currentTarget, icon.name);
+                }
+              }}
+            >
+              <img
+                src={icon.src}
+                alt={icon.alt}
+                className={`h-7 w-7 transition-transform group-hover:scale-110 ${
+                  variant === "right"
+                    ? "filter brightness-0 saturate-100 invert-[19%] sepia-[82%] hue-rotate-[344deg] contrast-[98%]"
+                    : ""
+                }`}
+              />
+              {/* Info indicator dot - only show on icons with info */}
+              {showInfo && (
+                <div className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              )}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

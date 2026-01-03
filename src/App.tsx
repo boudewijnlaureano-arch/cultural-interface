@@ -4,6 +4,9 @@ import { ScrollInfoBlock, type ScrollInfo } from "./components/ScrollInfoBlock";
 import { HoverInfoBlock, type HoverInfo } from "./components/HoverInfoBlock";
 import { ContentCard } from "./components/ContentCard";
 import { NavBar } from "./components/NavBar";
+import { StatusBar } from "./components/StatusBar";
+import { SearchBar } from "./components/SearchBar";
+import { CategoryTabs } from "./components/CategoryTabs";
 import { CONCEPT_HOVER_INFO, HOVER_INFO_DATA } from "./hoverInfo";
 
 
@@ -30,7 +33,7 @@ export default function App() {
     React.useState<Record<string | number, HoverInfo | HoverInfo[]>>(
       HOVER_INFO_DATA
     );
-  const [hoveredBlock, setHoveredBlock] = React.useState<{
+  const [clickedBlock, setClickedBlock] = React.useState<{
     id: number;
     side: Side;
     triggerCenterY: number;
@@ -72,7 +75,7 @@ export default function App() {
     }
   };
 
-  const handleHoverStart = (
+  const handleCardClick = (
     target: HTMLElement,
     blockId: number,
     side: Side
@@ -82,10 +85,14 @@ export default function App() {
       top: 0,
     };
     const triggerCenterY = rect.top - wrapperRect.top + rect.height / 2;
-    setHoveredBlock({ id: blockId, side, triggerCenterY });
+    setClickedBlock({ id: blockId, side, triggerCenterY });
   };
 
-  // Determine which info panels to show based on the hovered block
+  const handleCardLeave = () => {
+    setClickedBlock(null);
+  };
+
+  // Determine which info panels to show based on the clicked block (not hover)
   let leftInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
   let rightInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
 
@@ -94,25 +101,31 @@ export default function App() {
     return hoverInfoMap[id] ?? CONCEPT_HOVER_INFO[id];
   };
 
-  if (hoveredBlock) {
-    const infoData = getHoverInfo(hoveredBlock.id);
+  // Use clicked block for panel display
+  const displayBlock = clickedBlock;
+
+  if (displayBlock) {
+    const infoData = getHoverInfo(displayBlock.id);
     if (Array.isArray(infoData)) {
-      // Special case: show both panels
-      leftInfo = {
-        ...infoData[0],
-        triggerCenterY: hoveredBlock.triggerCenterY,
+      // Array case: show only the panel for the clicked side
+      // infoData[0] is American (left), infoData[1] is Chinese (right)
+      const info = displayBlock.side === "left" ? infoData[0] : infoData[1];
+      const infoWithTrigger = {
+        ...info,
+        triggerCenterY: displayBlock.triggerCenterY,
       };
-      rightInfo = {
-        ...infoData[1],
-        triggerCenterY: hoveredBlock.triggerCenterY,
-      };
+      if (displayBlock.side === "left") {
+        leftInfo = infoWithTrigger;
+      } else {
+        rightInfo = infoWithTrigger;
+      }
     } else if (infoData) {
       // Default case: show one panel on the corresponding side
       const infoWithTrigger = {
         ...infoData,
-        triggerCenterY: hoveredBlock.triggerCenterY,
+        triggerCenterY: displayBlock.triggerCenterY,
       };
-      if (hoveredBlock.side === "left") {
+      if (displayBlock.side === "left") {
         leftInfo = infoWithTrigger;
       } else {
         rightInfo = infoWithTrigger;
@@ -126,114 +139,117 @@ export default function App() {
       <div ref={wrapperRef} className="relative flex">
         {/* Left phone (shows blocks 6..10) */}
         <Phone>
-          <div
-            className="h-full flex flex-col p-4 gap-3 text-neutral-900 bg-blue-100"
-            onMouseEnter={(e) => handleHoverStart(e.currentTarget, 9, "left")}
-            onMouseLeave={() => setHoveredBlock(null)}
-          >
-            <div
-              ref={leftScrollRef}
-              className="flex-1 overflow-y-auto pr-1 scrollable-grid"
-              onScroll={handleLeftScroll}
-              onMouseEnter={() => (activeScrollerRef.current = "left")}
-              onWheel={() => (activeScrollerRef.current = "left")}
-            >
-              <div className="grid grid-cols-1 gap-3 pb-4">
-                {LEFT_BLOCKS.map((b) => {
-                  const hasCardHover = Boolean(getHoverInfo(b.id));
-                  return (
-                    <ContentCard
-                      key={b.id}
-                      title={b.title}
-                      variant="square"
-                      blockId={b.id}
-                      pfp={b.pfp}
-                      contentImage={b.contentImage}
-                      hasHoverInfo={hasCardHover}
-                      onHoverStart={(target) =>
-                        handleHoverStart(
-                          target,
-                          hasCardHover ? b.id : 3,
-                          "left"
-                        )
-                      }
-                      onHoverEnd={() => setHoveredBlock(null)}
-                      onPfpHoverStart={(target) =>
-                        handleHoverStart(target, 4, "left")
-                      }
-                      onPfpHoverEnd={() => setHoveredBlock(null)}
-                    />
-                  );
-                })}
+          <div className="h-full flex flex-col pt-2 text-neutral-900 bg-blue-100">
+            {/* Status Bar */}
+            <StatusBar variant="left" />
+
+            {/* Search Bar */}
+            <SearchBar variant="left" />
+
+            {/* Content Area - flex-1 with min-h-0 to allow overflow */}
+            <div className="flex-1 min-h-0 p-4">
+              <div
+                ref={leftScrollRef}
+                className="h-full overflow-y-auto pr-1 scrollable-grid"
+                onScroll={handleLeftScroll}
+                onMouseEnter={() => (activeScrollerRef.current = "left")}
+                onWheel={() => (activeScrollerRef.current = "left")}
+              >
+                <div className="grid grid-cols-1 gap-3 pb-4">
+                  {LEFT_BLOCKS.map((b) => {
+                    const hasCardHover = Boolean(getHoverInfo(b.id));
+                    return (
+                      <ContentCard
+                        key={b.id}
+                        title={b.title}
+                        variant="square"
+                        blockId={b.id}
+                        pfp={b.pfp}
+                        contentImage={b.contentImage}
+                        hasHoverInfo={hasCardHover}
+                        onHoverStart={() => {}} // No-op - chip shows on hover, panel on click
+                        onHoverEnd={handleCardLeave}
+                        onPfpClick={(target) =>
+                          handleCardClick(target, 4, "left")
+                        }
+                        onCardClick={(target) =>
+                          handleCardClick(target, hasCardHover ? b.id : 3, "left")
+                        }
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
+
+            {/* Navigation Bar */}
             <NavBar
               variant="left"
-              onHoverStart={(target) => handleHoverStart(target, 2, "left")}
-              onHoverEnd={() => setHoveredBlock(null)}
-              onButtonHoverStart={(target, iconName) => {
+              onButtonClick={(target, iconName) => {
                 if (iconName === "play") {
-                  handleHoverStart(target, 6, "left");
+                  handleCardClick(target, 6, "left");
                 }
               }}
-              onButtonHoverEnd={() => setHoveredBlock(null)}
             />
           </div>
         </Phone>
 
         {/* Right phone (shows blocks 1..5) */}
         <Phone>
-          <div
-            className="h-full flex flex-col p-2 gap-3 text-neutral-900 bg-red-100"
-            onMouseEnter={(e) => handleHoverStart(e.currentTarget, 9, "right")}
-            onMouseLeave={() => setHoveredBlock(null)}
-          >
-            <div
-              ref={rightScrollRef}
-              className="flex-1 overflow-y-auto pr-1 scrollable-grid"
-              onScroll={handleRightScroll}
-              onMouseEnter={() => (activeScrollerRef.current = "right")}
-              onWheel={() => (activeScrollerRef.current = "right")}
-            >
-              <div className="grid grid-cols-2 gap-1.5 pb-4">
-                {RIGHT_BLOCKS.map((b) => {
-                  const hasCardHover = Boolean(getHoverInfo(b.id));
-                  return (
-                    <ContentCard
-                      key={b.id}
-                      title={b.title}
-                      variant="tall"
-                      blockId={b.id}
-                      pfp={b.pfp}
-                      contentImage={b.contentImage}
-                      hasHoverInfo={hasCardHover}
-                      onHoverStart={(target) =>
-                        handleHoverStart(
-                          target,
-                          hasCardHover ? b.id : 3,
-                          "right"
-                        )
-                      }
-                      onHoverEnd={() => setHoveredBlock(null)}
-                      onPfpHoverStart={(target) =>
-                        handleHoverStart(target, 4, "right")
-                      }
-                      onPfpHoverEnd={() => setHoveredBlock(null)}
-                    />
-                  );
-                })}
+          <div className="h-full flex flex-col pt-2 text-neutral-900 bg-red-100">
+            {/* Status Bar */}
+            <StatusBar variant="right" />
+
+            {/* Search Bar */}
+            <SearchBar variant="right" />
+
+            {/* Category Tabs */}
+            <CategoryTabs />
+
+            {/* Content Area - flex-1 with min-h-0 to allow overflow */}
+            <div className="flex-1 min-h-0 p-2">
+              <div
+                ref={rightScrollRef}
+                className="h-full overflow-y-auto pr-1 scrollable-grid"
+                onScroll={handleRightScroll}
+                onMouseEnter={() => (activeScrollerRef.current = "right")}
+                onWheel={() => (activeScrollerRef.current = "right")}
+              >
+                <div className="grid grid-cols-2 gap-1.5 pb-4">
+                  {RIGHT_BLOCKS.map((b) => {
+                    const hasCardHover = Boolean(getHoverInfo(b.id));
+                    return (
+                      <ContentCard
+                        key={b.id}
+                        title={b.title}
+                        variant="tall"
+                        blockId={b.id}
+                        pfp={b.pfp}
+                        contentImage={b.contentImage}
+                        hasHoverInfo={hasCardHover}
+                        onHoverStart={() => {}} // No-op - chip shows on hover, panel on click
+                        onHoverEnd={handleCardLeave}
+                        onPfpClick={(target) =>
+                          handleCardClick(target, 4, "right")
+                        }
+                        onCardClick={(target) =>
+                          handleCardClick(target, hasCardHover ? b.id : 3, "right")
+                        }
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </div>
+
+            {/* Navigation Bar */}
             <NavBar
               variant="right"
-              onHoverStart={(target) => handleHoverStart(target, 2, "right")}
-              onHoverEnd={() => setHoveredBlock(null)}
-              onButtonHoverStart={(target, iconName) => {
+              onButtonClick={(target, iconName) => {
                 if (iconName === "create") {
-                  handleHoverStart(target, 6, "right");
+                  handleCardClick(target, 6, "right");
                 }
               }}
-              onButtonHoverEnd={() => setHoveredBlock(null)}
             />
           </div>
         </Phone>

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone UI Design Ideas & Improvements</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .phone-mock {
+            width: 320px;
+            height: 640px;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .icon-placeholder {
+            width: 1.75rem;
+            height: 1.75rem;
+            background: #666;
+            border-radius: 0.25rem;
+        }
+        .option-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        /* Status bar styling */
+        .status-bar {
+            height: 24px;
+            background: rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+        /* Top bar with search */
+        .top-bar {
+            background: white;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        .search-bar {
+            background: #f0f0f0;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 14px;
+            color: #999;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold mb-4 text-gray-900">Phone UI Design Ideas</h1>
+        <p class="text-gray-600 mb-12">Realistic improvements for navigation buttons and overall phone interface</p>
+
+        <!-- SECTION 1: Navigation Button Layout Options -->
+        <div class="mb-20">
+            <h2 class="text-3xl font-bold mb-3 text-gray-800">Navigation Button Layouts</h2>
+            <p class="text-gray-600 mb-8">Different spacing and shape options to make the nav bar look more realistic</p>
+
+            <div class="grid grid-cols-3 gap-6">
+
+                <!-- Option 1: Increased Spacing (Pills) -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Spaced Pills</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Navigation with more spacing -->
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-16 px-3 gap-2">
+                                <button class="p-2.5 flex justify-center items-center rounded-full bg-slate-50 hover:bg-slate-100 transition-colors w-12 h-12">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2.5 flex justify-center items-center rounded-full bg-slate-50 hover:bg-slate-100 transition-colors w-12 h-12">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2.5 flex justify-center items-center rounded-full bg-slate-50 hover:bg-slate-100 transition-colors w-12 h-12">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2.5 flex justify-center items-center rounded-full bg-slate-50 hover:bg-slate-100 transition-colors w-12 h-12">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">Circle buttons with generous spacing - clean and modern</p>
+                </div>
+
+                <!-- Option 2: Icon-Only (No Background) -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Icon-Only</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Navigation with no button backgrounds -->
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-16 px-4">
+                                <button class="p-3 flex justify-center items-center hover:bg-slate-50 rounded-lg transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-3 flex justify-center items-center hover:bg-slate-50 rounded-lg transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-3 flex justify-center items-center hover:bg-slate-50 rounded-lg transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-3 flex justify-center items-center hover:bg-slate-50 rounded-lg transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">Minimal approach - background appears only on hover</p>
+                </div>
+
+                <!-- Option 3: Squircle Buttons -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Squircle (Recommended)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Navigation with more rounded corners and spacing -->
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-16 px-3 gap-1.5">
+                                <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                                <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                    <div class="icon-placeholder"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-green-700 font-medium">✓ Softer than squares, better spacing - iOS-like feel</p>
+                </div>
+
+            </div>
+
+            <!-- Second row of button layouts -->
+            <div class="grid grid-cols-3 gap-6 mt-6">
+
+                <!-- Option 4: Floating Buttons -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Floating Bar</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Floating navigation bar -->
+                            <div class="p-3">
+                                <div class="flex justify-around items-center bg-white/90 backdrop-blur-md rounded-3xl h-14 px-2 gap-1 shadow-lg">
+                                    <button class="p-2 flex-1 flex justify-center items-center rounded-2xl hover:bg-slate-50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="p-2 flex-1 flex justify-center items-center rounded-2xl hover:bg-slate-50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="p-2 flex-1 flex justify-center items-center rounded-2xl hover:bg-slate-50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="p-2 flex-1 flex justify-center items-center rounded-2xl hover:bg-slate-50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">Detached floating bar - very modern, spatial depth</p>
+                </div>
+
+                <!-- Option 5: Separated Groups -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Grouped Icons</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Navigation with separated groups -->
+                            <div class="flex justify-between items-center backdrop-blur-sm border-t border-neutral-200 h-16 px-4">
+                                <div class="flex gap-6">
+                                    <button class="p-2.5 flex justify-center items-center rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="p-2.5 flex justify-center items-center rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                </div>
+                                <div class="flex gap-6">
+                                    <button class="p-2.5 flex justify-center items-center rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="p-2.5 flex justify-center items-center rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">Visual grouping - useful for categorizing functions</p>
+                </div>
+
+                <!-- Option 6: Pill-Shaped Container -->
+                <div class="option-card">
+                    <h3 class="text-base font-semibold mb-3 text-gray-700">Segmented Control</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <!-- Segmented control style -->
+                            <div class="flex justify-center items-center h-16 px-4">
+                                <div class="flex bg-slate-100 rounded-full p-1 gap-1">
+                                    <button class="px-4 py-2 flex justify-center items-center rounded-full bg-white shadow-sm hover:shadow transition-shadow">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="px-4 py-2 flex justify-center items-center rounded-full hover:bg-white/50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="px-4 py-2 flex justify-center items-center rounded-full hover:bg-white/50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                    <button class="px-4 py-2 flex justify-center items-center rounded-full hover:bg-white/50 transition-colors">
+                                        <div class="icon-placeholder"></div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-3 text-sm text-gray-600">iOS-style segmented control - shows active state clearly</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SECTION 2: Additional Realistic UI Elements -->
+        <div class="mb-20">
+            <h2 class="text-3xl font-bold mb-3 text-gray-800">Complete Phone UI Ideas</h2>
+            <p class="text-gray-600 mb-8">Full phone mockups with status bars, search, and other realistic elements</p>
+
+            <div class="grid grid-cols-2 gap-8">
+
+                <!-- Full UI Example 1: American Style -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone: American (Minimal & Clean)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <!-- Status bar -->
+                        <div class="status-bar text-gray-700">
+                            <span>9:41</span>
+                            <div class="flex gap-1 items-center">
+                                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                                    <rect width="3" height="6" rx="0.5"/>
+                                    <rect x="4.5" width="3" height="9" rx="0.5"/>
+                                    <rect x="9" width="3" height="12" rx="0.5"/>
+                                    <rect x="13.5" width="2.5" height="12" rx="0.5"/>
+                                </svg>
+                                <span style="font-size: 16px; font-weight: 600;">100%</span>
+                            </div>
+                        </div>
+
+                        <!-- Top bar with search -->
+                        <div class="top-bar">
+                            <div class="search-bar flex items-center gap-2">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+                                    <circle cx="11" cy="11" r="8"/>
+                                    <path d="m21 21-4.35-4.35"/>
+                                </svg>
+                                <span>Search</span>
+                            </div>
+                        </div>
+
+                        <!-- Content area -->
+                        <div class="flex-1 p-4 overflow-hidden">
+                            <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                        </div>
+
+                        <!-- Navigation - Squircle style -->
+                        <div class="flex justify-around items-center backdrop-blur-sm bg-white/50 border-t border-neutral-200 h-16 px-3 gap-1.5">
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <p class="font-semibold text-gray-700">Includes:</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>Status bar (time, signal, battery)</li>
+                            <li>Search bar at top</li>
+                            <li>Squircle navigation buttons</li>
+                            <li>Subtle backdrop blur on nav</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Full UI Example 2: Chinese Style -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone: Chinese (Dense & Vibrant)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <!-- Status bar -->
+                        <div class="status-bar text-gray-700">
+                            <span>9:41</span>
+                            <div class="flex gap-1 items-center">
+                                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                                    <rect width="3" height="6" rx="0.5"/>
+                                    <rect x="4.5" width="3" height="9" rx="0.5"/>
+                                    <rect x="9" width="3" height="12" rx="0.5"/>
+                                    <rect x="13.5" width="2.5" height="12" rx="0.5"/>
+                                </svg>
+                                <span style="font-size: 16px; font-weight: 600;">100%</span>
+                            </div>
+                        </div>
+
+                        <!-- Top bar with multiple elements (more dense) -->
+                        <div class="bg-white border-b border-neutral-200 p-2">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex gap-2 flex-1">
+                                    <div class="search-bar flex-1 flex items-center gap-2 text-xs">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"/>
+                                            <path d="m21 21-4.35-4.35"/>
+                                        </svg>
+                                        <span>Search products...</span>
+                                    </div>
+                                    <button class="p-1.5 bg-rose-50 rounded-lg">
+                                        <div class="w-4 h-4 bg-rose-300 rounded"></div>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Tab-like navigation -->
+                            <div class="flex gap-1 text-xs">
+                                <button class="px-3 py-1 bg-rose-100 text-rose-700 rounded-full font-medium">Hot</button>
+                                <button class="px-3 py-1 text-gray-600">Trending</button>
+                                <button class="px-3 py-1 text-gray-600">New</button>
+                                <button class="px-3 py-1 text-gray-600">Sale</button>
+                            </div>
+                        </div>
+
+                        <!-- Content area -->
+                        <div class="flex-1 p-2 overflow-hidden">
+                            <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                        </div>
+
+                        <!-- Navigation - Squircle style with rose colors -->
+                        <div class="flex justify-around items-center backdrop-blur-sm bg-white/50 border-t border-neutral-200 h-16 px-2 gap-1">
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                            <button class="p-2 flex-1 flex justify-center items-center rounded-2xl bg-rose-50 hover:bg-rose-100 transition-colors">
+                                <div class="icon-placeholder"></div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2 text-sm">
+                        <p class="font-semibold text-gray-700">Includes:</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>Status bar (time, signal, battery)</li>
+                            <li>Dense top bar with search + extras</li>
+                            <li>Category tabs (Hot, Trending, etc.)</li>
+                            <li>Squircle nav buttons with rose colors</li>
+                            <li>More buttons (5 vs 4)</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SECTION 3: Small UI Details -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold mb-3 text-gray-800">Small Realistic Details to Add</h2>
+            <p class="text-gray-600 mb-8">Tiny touches that make the phone interface feel more authentic</p>
+
+            <div class="bg-white rounded-2xl p-8 shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">Status Bar Elements</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li>• Time display (e.g., "9:41")</li>
+                            <li>• Signal strength indicator</li>
+                            <li>• WiFi icon</li>
+                            <li>• Battery percentage + icon</li>
+                            <li>• Cellular data icon (5G, LTE)</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-rose-500 pl-4">
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">Top Bar Features</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li>• Search bar with placeholder text</li>
+                            <li>• Shopping cart icon (Chinese style)</li>
+                            <li>• Notification bell with badge</li>
+                            <li>• Message/inbox counter</li>
+                            <li>• Category tabs or filters</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-green-500 pl-4">
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">Navigation Improvements</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li>• Active state indicator (dot or highlight)</li>
+                            <li>• Icon labels (small text under icons)</li>
+                            <li>• Notification badges on icons</li>
+                            <li>• Subtle shadows for depth</li>
+                            <li>• Rounded corners (16px - 24px radius)</li>
+                        </ul>
+                    </div>
+
+                    <div class="border-l-4 border-purple-500 pl-4">
+                        <h3 class="font-bold text-lg mb-2 text-gray-800">Content Area Details</h3>
+                        <ul class="space-y-2 text-gray-600 text-sm">
+                            <li>• Pull-to-refresh indicator at top</li>
+                            <li>• Scrollbar (thin, auto-hide)</li>
+                            <li>• "Stories" or carousel at top</li>
+                            <li>• Floating action button (FAB)</li>
+                            <li>• Bottom sheet/drawer handles</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800">Cultural Distinctions to Emphasize</h3>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="font-semibold text-blue-700 mb-2">American (Left Phone)</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• Minimal top bar (just search)</li>
+                                <li>• Neutral grays and blues</li>
+                                <li>• 4 navigation buttons (fewer features)</li>
+                                <li>• More whitespace/breathing room</li>
+                                <li>• Subtle, understated design</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-rose-700 mb-2">Chinese (Right Phone)</h4>
+                            <ul class="space-y-1 text-sm text-gray-600">
+                                <li>• Dense top bar (search + cart + tabs)</li>
+                                <li>• Warm reds, oranges, golds</li>
+                                <li>• 5+ navigation buttons (more features)</li>
+                                <li>• Tighter spacing, more content</li>
+                                <li>• Bold, vibrant design with labels</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendation Summary -->
+        <div class="bg-gradient-to-br from-blue-50 to-rose-50 rounded-2xl p-8 border-2 border-blue-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">💡 Recommended Implementation</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6">
+                    <h3 class="font-bold text-lg mb-3 text-blue-700">Navigation Buttons</h3>
+                    <p class="text-gray-700 mb-2">Use <strong>Squircle layout</strong> (Option 3)</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• rounded-2xl (16px border radius)</li>
+                        <li>• gap-1.5 between buttons</li>
+                        <li>• Slate colors (left) / Rose colors (right)</li>
+                        <li>• 150ms transition-colors</li>
+                    </ul>
+                </div>
+                <div class="bg-white rounded-xl p-6">
+                    <h3 class="font-bold text-lg mb-3 text-rose-700">Additional Elements</h3>
+                    <p class="text-gray-700 mb-2">Add these for realism:</p>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Status bar at top (time, battery)</li>
+                        <li>• Search bar below status</li>
+                        <li>• Category tabs (Chinese phone only)</li>
+                        <li>• Active state dot on nav buttons</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>All designs use the cultural color scheme: Slate (American minimal) vs Rose (Chinese vibrant)</p>
+        </div>
+    </div>
+</body>
+</html>

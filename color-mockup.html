@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Button Color Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .phone-mock {
+            width: 320px;
+            height: 640px;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+        .nav-button {
+            padding: 0.5rem;
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 150ms;
+        }
+        .icon-placeholder {
+            width: 2rem;
+            height: 2rem;
+            background: #666;
+            border-radius: 0.25rem;
+        }
+        .option-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-4xl font-bold mb-8 text-gray-900">Navigation Button Color Options</h1>
+
+        <!-- Current Implementation -->
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Current Implementation (for reference)</h2>
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Left Phone Current -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone (American)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">❌ Pure white with opacity hover - too harsh, no clear feedback</p>
+                </div>
+
+                <!-- Right Phone Current -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone (Chinese)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white hover:opacity-75">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600">❌ Same issue - doesn't match cultural aesthetic</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option A: Harmonious Tints -->
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Option A: Harmonious Tints</h2>
+            <p class="text-gray-600 mb-6">Perfect color harmony - buttons blend seamlessly with phone backgrounds</p>
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Left Phone Option A -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone (American)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-blue-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-blue-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-blue-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-blue-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> blue-50 → blue-100 → blue-200</p>
+                </div>
+
+                <!-- Right Phone Option A -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone (Chinese)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-red-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-red-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-red-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-red-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-red-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> red-50 → red-100 → red-200</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option B: Neutral Base with Accent Hovers -->
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Option B: Neutral Base with Accent Hovers</h2>
+            <p class="text-gray-600 mb-6">Clean neutral base, clear colored hover feedback</p>
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Left Phone Option B -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone (American)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-neutral-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-blue-100 active:bg-blue-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> neutral-50 → blue-100 → blue-200</p>
+                </div>
+
+                <!-- Right Phone Option B -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone (Chinese)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-neutral-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-neutral-50 hover:bg-red-100 active:bg-red-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> neutral-50 → red-100 → red-200</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option C: Cultural Contrast (RECOMMENDED) -->
+        <div class="mb-16 border-4 border-green-400 rounded-2xl p-6 bg-green-50">
+            <div class="flex items-center gap-3 mb-2">
+                <h2 class="text-2xl font-bold text-gray-800">Option C: Cultural Contrast</h2>
+                <span class="bg-green-600 text-white px-4 py-1 rounded-full text-sm font-bold">RECOMMENDED</span>
+            </div>
+            <p class="text-gray-600 mb-6">Cool slate (minimal) vs warm rose (vibrant) - strongest cultural distinction</p>
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Left Phone Option C -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone (American)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-slate-50 hover:bg-slate-100 active:bg-slate-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-slate-50 hover:bg-slate-100 active:bg-slate-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-slate-50 hover:bg-slate-100 active:bg-slate-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-slate-50 hover:bg-slate-100 active:bg-slate-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> slate-50 → slate-100 → slate-200</p>
+                    <p class="mt-2 text-sm text-green-700">✓ Cool, neutral, minimal - reflects American restraint</p>
+                </div>
+
+                <!-- Right Phone Option C -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone (Chinese)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-rose-50 hover:bg-rose-100 active:bg-rose-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-rose-50 hover:bg-rose-100 active:bg-rose-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-rose-50 hover:bg-rose-100 active:bg-rose-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-rose-50 hover:bg-rose-100 active:bg-rose-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-rose-50 hover:bg-rose-100 active:bg-rose-200">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> rose-50 → rose-100 → rose-200</p>
+                    <p class="mt-2 text-sm text-green-700">✓ Warm, vibrant, expressive - reflects Chinese aesthetic</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Option D: Transparent Overlay -->
+        <div class="mb-16">
+            <h2 class="text-2xl font-bold mb-2 text-gray-800">Option D: Transparent Overlay</h2>
+            <p class="text-gray-600 mb-6">Modern approach - inherits background color naturally with transparency</p>
+            <div class="grid grid-cols-2 gap-8">
+                <!-- Left Phone Option D -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Left Phone (American)</h3>
+                    <div class="phone-mock bg-blue-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-black/5 hover:bg-black/10 active:bg-black/15">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-black/5 hover:bg-black/10 active:bg-black/15">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-black/5 hover:bg-black/10 active:bg-black/15">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-black/5 hover:bg-black/10 active:bg-black/15">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> black/5% → black/10% → black/15%</p>
+                </div>
+
+                <!-- Right Phone Option D -->
+                <div class="option-card">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-700">Right Phone (Chinese)</h3>
+                    <div class="phone-mock bg-red-100">
+                        <div class="h-full flex flex-col">
+                            <div class="flex-1 p-4">
+                                <div class="bg-white rounded-2xl h-full shadow-sm"></div>
+                            </div>
+                            <div class="flex justify-around items-center backdrop-blur-sm border-t border-neutral-200 h-14 px-2 gap-2">
+                                <div class="nav-button bg-white/40 hover:bg-white/60 active:bg-white/80">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white/40 hover:bg-white/60 active:bg-white/80">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white/40 hover:bg-white/60 active:bg-white/80">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white/40 hover:bg-white/60 active:bg-white/80">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                                <div class="nav-button bg-white/40 hover:bg-white/60 active:bg-white/80">
+                                    <div class="icon-placeholder"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mt-4 text-sm text-gray-600"><strong>Colors:</strong> white/40% → white/60% → white/80%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Summary -->
+        <div class="bg-white rounded-2xl p-8 shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Quick Comparison Guide</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-lg mb-3 text-gray-700">Pros & Cons</h3>
+                    <div class="space-y-4">
+                        <div class="border-l-4 border-blue-400 pl-4">
+                            <p class="font-semibold">Option A: Harmonious Tints</p>
+                            <p class="text-sm text-green-600">✓ Perfect harmony</p>
+                            <p class="text-sm text-red-600">✗ May be too subtle on right phone</p>
+                        </div>
+                        <div class="border-l-4 border-purple-400 pl-4">
+                            <p class="font-semibold">Option B: Neutral Base</p>
+                            <p class="text-sm text-green-600">✓ Clear hover feedback</p>
+                            <p class="text-sm text-red-600">✗ Less culturally distinct at rest</p>
+                        </div>
+                        <div class="border-l-4 border-green-400 pl-4">
+                            <p class="font-semibold">Option C: Cultural Contrast</p>
+                            <p class="text-sm text-green-600">✓ Strongest cultural distinction</p>
+                            <p class="text-sm text-green-600">✓ Matches design philosophy</p>
+                            <p class="text-sm text-green-600">✓ Clear feedback</p>
+                        </div>
+                        <div class="border-l-4 border-orange-400 pl-4">
+                            <p class="font-semibold">Option D: Transparent</p>
+                            <p class="text-sm text-green-600">✓ Modern, adaptive</p>
+                            <p class="text-sm text-red-600">✗ May reduce icon legibility</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-lg mb-3 text-gray-700">Recommendations</h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                            <p class="font-semibold text-green-800">Best Choice: Option C</p>
+                            <p class="text-sm text-gray-700">Provides the strongest cultural narrative while maintaining excellent usability and visual harmony.</p>
+                        </div>
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                            <p class="font-semibold text-blue-800">Safe Alternative: Option A</p>
+                            <p class="text-sm text-gray-700">If you prefer maximum subtlety and seamless integration with backgrounds.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center text-gray-500 text-sm">
+            <p>Hover over any button in the mockups to see the hover state. Click to see the active state.</p>
+        </div>
+    </div>
+</body>
+</html>
