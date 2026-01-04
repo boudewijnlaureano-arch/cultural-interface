@@ -8,7 +8,7 @@ const LEFT_ICONS = [
 const RIGHT_ICONS = [
   { name: "home", src: "/assets/icons/icon-home.svg", alt: "Home" },
   { name: "shop", src: "/assets/icons/icon-shop.svg", alt: "Shop" },
-  { name: "create", src: "/assets/icons/icon-create.svg", alt: "Create" },
+  { name: "hot", src: "/assets/icons/icon-hot.svg", alt: "Hot" },
   { name: "inbox", src: "/assets/icons/icon-inbox.svg", alt: "Inbox" },
   { name: "user", src: "/assets/icons/icon-user.svg", alt: "User" },
 ];
@@ -16,19 +16,20 @@ const RIGHT_ICONS = [
 type NavBarProps = {
   variant: "left" | "right";
   onButtonClick: (target: HTMLElement, iconName: string) => void;
+  onButtonLeave?: () => void;
   activeButton?: string; // Optional: which button is currently active (defaults to "home")
 };
 
 export function NavBar({
   variant,
   onButtonClick,
+  onButtonLeave,
 }: NavBarProps) {
   const icons = variant === "left" ? LEFT_ICONS : RIGHT_ICONS;
 
-  // Check which icons have info (play for left, create for right)
   const hasInfo = (iconName: string) => {
     if (variant === "left") return iconName === "play";
-    if (variant === "right") return iconName === "create";
+    if (variant === "right") return iconName === "hot";
     return false;
   };
 
@@ -52,6 +53,11 @@ export function NavBar({
                   onButtonClick(e.currentTarget, icon.name);
                 }
               }}
+              onMouseLeave={() => {
+                if (showInfo && onButtonLeave) {
+                  onButtonLeave();
+                }
+              }}
             >
               <img
                 src={icon.src}
@@ -62,7 +68,6 @@ export function NavBar({
                     : ""
                 }`}
               />
-              {/* Info indicator dot - only show on icons with info */}
               {showInfo && (
                 <div className="absolute top-1 right-1 w-2 h-2 bg-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
               )}

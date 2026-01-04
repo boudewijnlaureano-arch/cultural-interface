@@ -53,7 +53,7 @@
   width: 100%;
 }
 
-/* light, minimal scrollbar for the grid area */
+
 .scrollable-grid::-webkit-scrollbar {
   width: 6px;
 }
@@ -68,7 +68,7 @@
 }
 
 .scrollable-grid {
-  scrollbar-width: thin;                 /* Firefox */
+  scrollbar-width: thin;                 
   scrollbar-color: rgba(0,0,0,0.15) transparent;
 }
 

@@ -3,7 +3,6 @@ type StatusBarProps = {
 };
 
 export function StatusBar({ variant }: StatusBarProps) {
-  // Get current time in HH:MM format
   const currentTime = new Date().toLocaleTimeString("en-US", {
     hour: "2-digit",
     minute: "2-digit",
@@ -18,7 +17,6 @@ export function StatusBar({ variant }: StatusBarProps) {
     >
       <span>{currentTime}</span>
       <div className="flex gap-1.5 items-center">
-        {/* Signal icon */}
         <svg
           width="14"
           height="10"
@@ -31,7 +29,6 @@ export function StatusBar({ variant }: StatusBarProps) {
           <rect x="8" width="2.5" height="11" y="1" rx="0.5" />
           <rect x="12" width="2.5" height="12" rx="0.5" />
         </svg>
-        {/* Battery percentage */}
         <span className="font-semibold">100%</span>
       </div>
     </div>

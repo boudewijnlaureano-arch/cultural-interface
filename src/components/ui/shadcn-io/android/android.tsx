@@ -19,7 +19,6 @@ export const Android = ({
   children,
   ...props
 }: AndroidProps) => {
-  // Safe unique id for clipPath (no ":" issues)
   const rawId = React.useId();
   const clipId = `android-clip-${rawId.replace(/[^a-zA-Z0-9_-]/g, "")}`;
 
@@ -32,7 +31,7 @@ export const Android = ({
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      {/* Side buttons */}
+      {/* buttons */}
       <path
         d="M376 153H378C379.105 153 380 153.895 380 155V249C380 250.105 379.105 251 378 251H376V153Z"
         className="fill-[#E5E5E5] dark:fill-[#404040]"
@@ -42,7 +41,7 @@ export const Android = ({
         className="fill-[#E5E5E5] dark:fill-[#404040]"
       />
 
-      {/* Phone body */}
+      {/* body */}
       <path
         d="M0 42C0 18.8041 18.804 0 42 0H336C359.196 0 378 18.804 378 42V788C378 811.196 359.196 830 336 830H42C18.804 830 0 811.196 0 788V42Z"
         className="fill-[#E5E5E5] dark:fill-[#404040]"
@@ -52,15 +51,13 @@ export const Android = ({
         className="fill-white dark:fill-[#262626]"
       />
 
-      {/* Screen (everything inside clipped to exact shape) */}
+      {/* screen */}
       <g clipPath={`url(#${clipId})`}>
-        {/* Screen background */}
         <path
           d="M9.25 48C9.25 29.3604 24.3604 14.25 43 14.25H335C353.64 14.25 368.75 29.3604 368.75 48V780C368.75 798.64 353.64 813.75 335 813.75H43C24.3604 813.75 9.25 798.64 9.25 780V48Z"
           className="fill-[#E5E5E5] stroke-[#E5E5E5] stroke-[0.5] dark:fill-[#404040] dark:stroke-[#404040]"
         />
 
-        {/* Optional image background */}
         {src && (
           <image
             href={src}
@@ -72,7 +69,6 @@ export const Android = ({
           />
         )}
 
-        {/* Optional video background */}
         {videoSrc && (
           <foreignObject x="9" y="14" width="360" height="800">
             <video
@@ -87,7 +83,6 @@ export const Android = ({
           </foreignObject>
         )}
 
-        {/* Your React UI */}
         {children && (
           <foreignObject x="9" y="14" width="360" height="800">
             <div

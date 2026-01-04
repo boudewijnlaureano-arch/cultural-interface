@@ -7,17 +7,27 @@ import { NavBar } from "./components/NavBar";
 import { StatusBar } from "./components/StatusBar";
 import { SearchBar } from "./components/SearchBar";
 import { CategoryTabs } from "./components/CategoryTabs";
+import { PromoBanner } from "./components/PromoBanner";
+import { QuickActions } from "./components/QuickActions";
+import { AnnouncementBar } from "./components/AnnouncementBar";
 import { CONCEPT_HOVER_INFO, HOVER_INFO_DATA } from "./hoverInfo";
 
 
 
 type Side = "left" | "right";
 
+const BADGES: Array<"HOT" | "NEW" | "SALE" | null> = ["HOT", "NEW", null, "SALE", null, "HOT", null, "NEW"];
+const LIKES = [2300, 1800, 3100, 956, 1500, 2700, 890, 1200];
+const PRICES = ["¥199", "¥89", "¥599", "¥299", "¥149", "¥399", "¥79", "¥249"];
+
 const RIGHT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
   id: i + 8,
   title: `Block ${i + 8}`,
   pfp: { label: "@Yuan ShiMing", src: '/assets/PFPs/kipepeopfp.jpeg' },
   contentImage: { label: "toronto", src: '/assets/Content/toronto.jpeg'},
+  badge: BADGES[i],
+  likes: LIKES[i],
+  price: PRICES[i],
 }));
 
 const LEFT_BLOCKS = Array.from({ length: 8 }, (_, i) => ({
@@ -43,8 +53,7 @@ export default function App() {
   const leftScrollRef = React.useRef<HTMLDivElement | null>(null);
   const rightScrollRef = React.useRef<HTMLDivElement | null>(null);
 
-  // Ref to track which scroll container is being actively scrolled by the user
-  // to prevent an infinite loop of scroll events.
+  // tracks active scroller to prevent sync loop
   const activeScrollerRef = React.useRef<Side | null>(null);
 
   const handleLeftScroll = (e: React.UIEvent<HTMLDivElement>) => {
@@ -92,23 +101,19 @@ export default function App() {
     setClickedBlock(null);
   };
 
-  // Determine which info panels to show based on the clicked block (not hover)
   let leftInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
   let rightInfo: (HoverInfo & { triggerCenterY: number }) | undefined;
 
   const getHoverInfo = (id: string | number) => {
-    // Check block-specific data first, then conceptual data
     return hoverInfoMap[id] ?? CONCEPT_HOVER_INFO[id];
   };
 
-  // Use clicked block for panel display
   const displayBlock = clickedBlock;
 
   if (displayBlock) {
     const infoData = getHoverInfo(displayBlock.id);
     if (Array.isArray(infoData)) {
-      // Array case: show only the panel for the clicked side
-      // infoData[0] is American (left), infoData[1] is Chinese (right)
+      // [0] = american, [1] = chinese
       const info = displayBlock.side === "left" ? infoData[0] : infoData[1];
       const infoWithTrigger = {
         ...info,
@@ -120,7 +125,6 @@ export default function App() {
         rightInfo = infoWithTrigger;
       }
     } else if (infoData) {
-      // Default case: show one panel on the corresponding side
       const infoWithTrigger = {
         ...infoData,
         triggerCenterY: displayBlock.triggerCenterY,
@@ -134,19 +138,15 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-neutral-700">
-      {/* Wrapper MUST be relative so panels can position next to phones */}
+    <div className="min-h-screen w-full flex items-center justify-center bg-neutral-600">
       <div ref={wrapperRef} className="relative flex">
-        {/* Left phone (shows blocks 6..10) */}
+        {/* left phone */}
         <Phone>
           <div className="h-full flex flex-col pt-2 text-neutral-900 bg-blue-100">
-            {/* Status Bar */}
             <StatusBar variant="left" />
-
-            {/* Search Bar */}
             <SearchBar variant="left" />
 
-            {/* Content Area - flex-1 with min-h-0 to allow overflow */}
+            {/* content area */}
             <div className="flex-1 min-h-0 p-4">
               <div
                 ref={leftScrollRef}
@@ -166,6 +166,7 @@ export default function App() {
                         blockId={b.id}
                         pfp={b.pfp}
                         contentImage={b.contentImage}
+                        gradientColor="blue"
                         hasHoverInfo={hasCardHover}
                         onHoverStart={() => {}} // No-op - chip shows on hover, panel on click
                         onHoverEnd={handleCardLeave}
@@ -182,7 +183,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Navigation Bar */}
             <NavBar
               variant="left"
               onButtonClick={(target, iconName) => {
@@ -190,24 +190,20 @@ export default function App() {
                   handleCardClick(target, 6, "left");
                 }
               }}
+              onButtonLeave={handleCardLeave}
             />
           </div>
         </Phone>
 
-        {/* Right phone (shows blocks 1..5) */}
+        {/* right phone */}
         <Phone>
           <div className="h-full flex flex-col pt-2 text-neutral-900 bg-red-100">
-            {/* Status Bar */}
             <StatusBar variant="right" />
-
-            {/* Search Bar */}
             <SearchBar variant="right" />
-
-            {/* Category Tabs */}
             <CategoryTabs />
 
-            {/* Content Area - flex-1 with min-h-0 to allow overflow */}
-            <div className="flex-1 min-h-0 p-2">
+            {/* content area */}
+            <div className="flex-1 min-h-0">
               <div
                 ref={rightScrollRef}
                 className="h-full overflow-y-auto pr-1 scrollable-grid"
@@ -215,7 +211,11 @@ export default function App() {
                 onMouseEnter={() => (activeScrollerRef.current = "right")}
                 onWheel={() => (activeScrollerRef.current = "right")}
               >
-                <div className="grid grid-cols-2 gap-1.5 pb-4">
+                <PromoBanner />
+                <QuickActions />
+                <AnnouncementBar />
+
+                <div className="grid grid-cols-2 gap-1.5 px-2 pb-4">
                   {RIGHT_BLOCKS.map((b) => {
                     const hasCardHover = Boolean(getHoverInfo(b.id));
                     return (
@@ -226,6 +226,10 @@ export default function App() {
                         blockId={b.id}
                         pfp={b.pfp}
                         contentImage={b.contentImage}
+                        badge={b.badge}
+                        likes={b.likes}
+                        price={b.price}
+                        gradientColor="rose"
                         hasHoverInfo={hasCardHover}
                         onHoverStart={() => {}} // No-op - chip shows on hover, panel on click
                         onHoverEnd={handleCardLeave}
@@ -242,19 +246,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* Navigation Bar */}
             <NavBar
               variant="right"
               onButtonClick={(target, iconName) => {
-                if (iconName === "create") {
+                if (iconName === "hot") {
                   handleCardClick(target, 6, "right");
                 }
               }}
+              onButtonLeave={handleCardLeave}
             />
           </div>
         </Phone>
 
-        {/* LEFT panel: always on the outside of the left phone */}
+        {/* info panels */}
         <SideInfo
           isOpen={Boolean(leftInfo)}
           side="left"
@@ -262,8 +266,6 @@ export default function App() {
           text={leftInfo?.text ?? ""}
           triggerCenterY={leftInfo?.triggerCenterY}
         />
-
-        {/* RIGHT panel: always on the outside of the right phone */}
         <SideInfo
           isOpen={Boolean(rightInfo)}
           side="right"
@@ -276,7 +278,7 @@ export default function App() {
   );
 }
 
-/* ---------------- Observer hook ---------------- */
+/* observer hook */
 
 function useInfoBlocksInView({
   scrollRootRef,
@@ -297,7 +299,7 @@ function useInfoBlocksInView({
       rootEl.querySelectorAll<HTMLElement>("[data-block-id]")
     ).filter((el) => {
       const id = Number(el.getAttribute("data-block-id"));
-      return Boolean(scrollInfoMap[id]); // only blocks with info
+      return Boolean(scrollInfoMap[id]);
     });
 
     if (targets.length === 0) return;
@@ -337,7 +339,7 @@ function useInfoBlocksInView({
   }, [scrollRootRef, onChange, scrollInfoMap]);
 }
 
-/* ---------------- Phone wrapper ---------------- */
+/* phone wrapper */
 
 function Phone({ children }: React.PropsWithChildren<{}>) {
   return (
@@ -347,7 +349,7 @@ function Phone({ children }: React.PropsWithChildren<{}>) {
   );
 }
 
-/* ---------------- SideInfo (no flicker, fade in/out) ---------------- */
+/* side info panel */
 
 function SideInfo({
   isOpen,
@@ -362,7 +364,7 @@ function SideInfo({
   text: string;
   triggerCenterY?: number;
 }) {
-  // Keep mounted during fade-out and freeze content so it doesn't flash blank
+  // freeze content during fade-out
   const [mounted, setMounted] = React.useState(false);
   const [frozen, setFrozen] = React.useState({ side, title, text });
 

@@ -5,6 +5,5 @@ export interface ScrollInfo {
 }
 
 export function ScrollInfoBlock(props: ScrollInfo) {
-  // This component is used for its props, it does not render anything.
   return null;
 }

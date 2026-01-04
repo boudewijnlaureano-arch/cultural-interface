@@ -3,11 +3,11 @@ import type { HoverInfo } from "../components/HoverInfoBlock";
 const contentMap = {
   1: {
     american: {
-      title: "1. Clean Feed (Low Density)",
+      title: "Clean Feed (Low Density)",
       text: "This interface uses low information density and strong visual hierarchy. Western social media design favors simplicity, reduced cognitive load, and progressive disclosure to support focused, goal-oriented interaction.\n\nReferences:\nDong & Lee (2008)\nLiljenberg et al. (2019)\nRahman et al. (2024)",
     },
     chinese: {
-      title: "1. Dense Feed (High Density)",
+      title: "Dense Feed (High Density)",
       text: "This interface presents many features and content blocks simultaneously. Chinese social media reflects a cultural preference for information abundance, enabling exploration, multitasking, and quick access to diverse functions.\n\nReferences:\nDong & Lee (2008)\nLiljenberg et al. (2019)\nLin (2025)\n2024-2025-LinHHua",
     },
   },
@@ -91,9 +91,6 @@ function createComparativePanel(
   ];
 }
 
-/**
- * Maps a conceptual ID (from your list) to its corresponding hover information.
- */
 export const CONCEPT_HOVER_INFO: Record<number, HoverInfo | HoverInfo[]> = {
   1: createComparativePanel(1, 1),
   2: createComparativePanel(2, 2),
@@ -105,15 +102,11 @@ export const CONCEPT_HOVER_INFO: Record<number, HoverInfo | HoverInfo[]> = {
   10: { id: 10, ...contentMap[10].summary },
 };
 
-/**
- * Maps a block ID to its corresponding hover information.
- */
 export const HOVER_INFO_DATA: Record<number, HoverInfo | HoverInfo[]> = {
-  // Link concepts to specific block IDs
-  1: CONCEPT_HOVER_INFO[1], // Density -> Left CC 1
-  2: CONCEPT_HOVER_INFO[8], // Ads -> Left CC 2
-  8: CONCEPT_HOVER_INFO[1], // Density -> Right CC 1
-  9: CONCEPT_HOVER_INFO[1], // Density -> Right CC 2
-  10: CONCEPT_HOVER_INFO[8], // Ads -> Right CC 3
-  11: CONCEPT_HOVER_INFO[8], // Ads -> Right CC 4
+  1: CONCEPT_HOVER_INFO[1],
+  2: CONCEPT_HOVER_INFO[8],
+  8: CONCEPT_HOVER_INFO[1],
+  9: CONCEPT_HOVER_INFO[1],
+  10: CONCEPT_HOVER_INFO[8],
+  11: CONCEPT_HOVER_INFO[8],
 };

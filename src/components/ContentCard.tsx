@@ -7,6 +7,10 @@ export type ContentCardProps = {
   variant: "square" | "tall";
   pfp: { label: string; src: string };
   contentImage: { label: string; src: string };
+  badge?: "HOT" | "NEW" | "SALE" | null;
+  likes?: number;
+  price?: string;
+  gradientColor?: "rose" | "blue";
   onHoverStart: (target: HTMLDivElement) => void;
   onHoverEnd: () => void;
   onPfpClick?: (target: HTMLDivElement) => void;
@@ -19,6 +23,10 @@ export function ContentCard({
   variant,
   contentImage,
   hasHoverInfo,
+  badge,
+  likes,
+  price,
+  gradientColor = "blue",
   onHoverStart,
   onHoverEnd,
   onPfpClick,
@@ -27,17 +35,20 @@ export function ContentCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isPfpHovered, setIsPfpHovered] = useState(false);
 
+  const gradientClass = gradientColor === "rose"
+    ? "bg-gradient-to-br from-rose-300 to-rose-400"
+    : "bg-gradient-to-br from-blue-300 to-blue-400";
+
   const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     if (hasHoverInfo) {
       setIsHovered(true);
-      // Don't call onHoverStart - we only show panel on click now
     }
   };
 
   const handleMouseLeave = () => {
     if (hasHoverInfo) {
       setIsHovered(false);
-      onHoverEnd(); // This will clear the clicked panel
+      onHoverEnd();
     }
   };
 
@@ -65,7 +76,6 @@ export function ContentCard({
         ${hasHoverInfo ? "cursor-pointer" : ""}
       `}
     >
-      {/* Info Chip - appears on hover */}
       {hasHoverInfo && (
         <div
           className={`
@@ -97,12 +107,23 @@ export function ContentCard({
         </div>
       )}
 
-      <div className="h-2/3 w-full">
+      <div className={`${variant === "square" ? "h-2/3" : "h-[55%]"} w-full relative ${gradientClass}`}>
         <img
           src={contentImage.src}
           alt={contentImage.label}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover opacity-0"
         />
+        {badge && (
+          <div className="absolute top-2 left-2.5 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded text-[9px] font-bold">
+            {badge}
+          </div>
+        )}
+        {likes !== undefined && (
+          <div className="absolute bottom-2 right-2 bg-black/60 backdrop-blur-sm text-white px-2 py-0.5 rounded text-[9px] font-medium flex items-center gap-1">
+            <span>❤️</span>
+            <span>{likes >= 1000 ? `${(likes / 1000).toFixed(1)}k` : likes}</span>
+          </div>
+        )}
       </div>
       <div className="flex-1 p-3 flex flex-col justify-between">
         <div
@@ -110,7 +131,7 @@ export function ContentCard({
           onMouseEnter={() => setIsPfpHovered(true)}
           onMouseLeave={() => setIsPfpHovered(false)}
           onClick={(e) => {
-            e.stopPropagation(); // Prevent card click
+            e.stopPropagation();
             if (onPfpClick) {
               onPfpClick(e.currentTarget);
             }
@@ -124,7 +145,6 @@ export function ContentCard({
           <span className="text-xs font-semibold text-neutral-800 group-hover/pfp:text-blue-600 transition-colors">
             {pfp.label}
           </span>
-          {/* Info icon indicator */}
           <div
             className={`ml-auto transition-all duration-200 ${
               isPfpHovered
@@ -142,9 +162,16 @@ export function ContentCard({
             </svg>
           </div>
         </div>
-        <p className="text-xs text-neutral-600 line-clamp-2">
-          A sample description of the content block, providing some context.
-        </p>
+        <div className="space-y-1">
+          <p className="text-xs text-neutral-600 line-clamp-2">
+            A sample description of the content block, providing some context.
+          </p>
+          {price && (
+            <div className="text-rose-600 font-bold text-sm">
+              {price}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
